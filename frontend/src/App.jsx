@@ -10,7 +10,8 @@ import {
 } from "recharts";
 
 
-const API_URL = "http://localhost:8000";
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 const expenseCategories = [
   "Food & Dining",
@@ -304,11 +305,7 @@ function App() {
               min="0.01"
               placeholder="0.00"
               value={amount}
-              onChange={(event) => {
-                setType(event.target.value);
-                setCategory("");
-                setCustomCategory("");
-              }}
+              onChange={(event) => setAmount(event.target.value)}
               required
             />
           </div>
