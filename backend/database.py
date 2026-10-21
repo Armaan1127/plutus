@@ -14,6 +14,20 @@ if DATABASE_URL.startswith("postgres://"):
         "postgres://", "postgresql://", 1
     )
 
+if DATABASE_URL.startswith("postgresql+psycopg://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgresql+psycopg://",
+        "postgresql+psycopg2://",
+        1
+    )
+
+elif DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgresql://",
+        "postgresql+psycopg2://",
+        1
+    )
+
 engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(
