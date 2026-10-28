@@ -1,89 +1,113 @@
 # Plutus — Personal Finance Dashboard
 
-Plutus is a full-stack personal finance application that helps users track income, manage expenses, and visualize their spending habits through an interactive dashboard.
+**Live Demo:** https://plutus-ecru-pi.vercel.app
 
-**Live Demo:** https://plutus-hy7t8t99d-armaan1127.vercel.app
+A full-stack personal finance application that helps users manage transactions, analyze spending, create budgets, and track savings goals.
+
+Built with **React, FastAPI, and PostgreSQL**, Plutus features user authentication, interactive financial dashboards, and persistent, user-specific financial data.
 
 ## Features
 
-- **Transaction Management:** Add and delete income and expense transactions.
-- **Financial Dashboard:** View total income, expenses, and current balance.
-- **Spending Visualization:** Interactive donut chart showing expenses by category.
-- **Transaction Filtering:** Filter transactions by type and category.
-- **Search:** Find transactions using descriptions.
-- **Custom Categories:** Create personalized transaction categories.
-- **Persistent Storage:** Store transactions in a PostgreSQL database.
-- **Responsive Design:** Modern dashboard optimized for different screen sizes.
+### Authentication
+- User registration and login with JWT-based authentication.
+- Password hashing using Argon2.
+- Private financial records associated with individual user accounts.
+
+### Transaction Management
+- Add, view, edit, and delete income and expense transactions.
+- Organize transactions by category, date, and description.
+- Import and export transaction data using CSV files.
+
+### Financial Dashboard
+- View total income, expenses, and account balance.
+- Visualize spending by category.
+- Analyze income and expense trends through interactive charts.
+- Monitor financial activity through a responsive dashboard.
+
+### Budget Tracking
+- Create monthly budgets for spending categories.
+- Track spending against budget limits.
+- Visualize budget utilization and remaining balances.
+
+### Recurring Transactions
+- Create recurring income and expense templates.
+- Generate transactions from recurring schedules.
+- Prevent duplicate generation for the same scheduled occurrence.
+
+### Savings Goals
+- Create personalized savings goals.
+- Track progress toward target amounts.
+- Update savings contributions and monitor completion.
 
 ## Tech Stack
 
-| Layer | Technologies |
-|---|---|
-| Frontend | React, JavaScript, Vite, CSS |
-| Backend | Python, FastAPI |
+| Component | Technologies |
+|-----------|-------------|
+| Frontend | React, JavaScript, Vite, Recharts |
+| Backend | Python, FastAPI, Pydantic |
 | Database | PostgreSQL, SQLAlchemy |
-| Visualization | Recharts |
+| Authentication | JWT, Argon2 |
+| Testing | Pytest |
 | Deployment | Vercel, Render |
-| Version Control | Git, GitHub |
 
 ## Architecture
 
-The React frontend communicates with a FastAPI REST API using HTTP requests.
+Plutus uses a client-server architecture with a RESTful API.
 
-FastAPI handles transaction operations and interacts with PostgreSQL through SQLAlchemy.
+1. **React Frontend:** Provides the user interface, forms, financial dashboards, and interactive charts.
+2. **FastAPI Backend:** Handles authentication, business logic, financial calculations, and API requests.
+3. **PostgreSQL Database:** Stores user accounts, transactions, budgets, recurring templates, and savings goals.
+4. **JWT Authentication:** Protects user-specific endpoints and associates financial records with authenticated accounts.
 
-```text
-React Frontend (Vercel)
-         |
-         | HTTP / JSON
-         v
-FastAPI Backend (Render)
-         |
-         | SQLAlchemy
-         v
-PostgreSQL Database (Render)
-```
-
-## API Endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/transactions` | Retrieve transactions |
-| POST | `/transactions` | Create a transaction |
-| DELETE | `/transactions/{id}` | Delete a transaction |
+The frontend is deployed on Vercel, while the backend and PostgreSQL database are hosted on Render.
 
 ## Running Locally
 
 ### Prerequisites
 
-- Python 3
+- Python 3.11+
 - Node.js and npm
 - PostgreSQL
 
-### Backend
+### 1. Clone the Repository
 
-1. Navigate to the backend directory:
+```bash
+git clone https://github.com/Armaan1127/plutus.git
+cd plutus
+```
+
+### 2. Configure the Backend
+
+Create a PostgreSQL database named `plutus`.
+
+Navigate to the backend directory:
 
 ```bash
 cd backend
 ```
 
-2. Create and activate a virtual environment:
+Create and activate a virtual environment:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-3. Install dependencies:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Set the `DATABASE_URL` environment variable to your PostgreSQL connection string.
+Configure the following environment variables:
 
-5. Start the API:
+```env
+DATABASE_URL=postgresql://localhost/plutus
+JWT_SECRET=replace_with_a_random_secret_at_least_32_characters_long
+FRONTEND_URL=http://localhost:5173
+```
+
+Start the API:
 
 ```bash
 uvicorn main:app --reload
@@ -91,40 +115,65 @@ uvicorn main:app --reload
 
 The backend runs at `http://localhost:8000`.
 
-### Frontend
+Interactive API documentation is available at `http://localhost:8000/docs`.
 
-1. Navigate to the frontend directory:
+### 3. Configure the Frontend
+
+Open another terminal:
 
 ```bash
 cd frontend
-```
-
-2. Install dependencies:
-
-```bash
 npm install
 ```
 
-3. Start the development server:
+Create a `.env` file:
+
+```env
+VITE_API_URL=http://localhost:8000
+```
+
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-The frontend runs at `http://localhost:5173` by default.
+Open `http://localhost:5173` in your browser.
 
-To connect to a different backend, configure the `VITE_API_URL` environment variable.
+## Testing
+
+The backend includes automated API tests covering core application functionality.
+
+Run the tests from the backend directory:
+
+```bash
+pytest
+```
+
+## Deployment
+
+Plutus is deployed using:
+
+- **Vercel:** React frontend
+- **Render:** FastAPI backend
+- **Render PostgreSQL:** Relational database
+
+Production configuration uses environment variables to manage database connections, authentication secrets, and permitted frontend origins.
 
 ## Future Improvements
 
-- User authentication and individual accounts
-- Monthly spending trends and analytics
-- Budget creation and tracking
-- Transaction editing
-- CSV import and export
+- Email verification and password recovery
+- Authentication rate limiting and additional security protections
+- Automatic recurring transaction processing
+- Expanded financial reporting and analytics
+- Additional automated tests and CI/CD integration
 
-## Project Status
+## Disclaimer
 
-Plutus is deployed and functional as a public demonstration.
+Plutus is a portfolio project built for educational purposes. It is not intended to replace professional financial software or store sensitive banking credentials.
 
-**Note:** The current demo does not support individual user accounts. Transactions are shared across visitors. Do not enter sensitive financial information.
+## Author
+
+**Armaan Singh**
+
+GitHub: https://github.com/Armaan1127
